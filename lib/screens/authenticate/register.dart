@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:utmcssa_app/utils/loading.dart';
 
 import '../../services/auth.dart';
+import '../../utils/shared.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key,}) : super(key: key);
+  final Function toggleView;
+  const Register({Key? key, required this.toggleView,}) : super(key: key);
 
   @override
   State<Register> createState() => _RegisterState();
@@ -20,6 +22,7 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   String email  = '';
   String password = '';
+  String error = '';
 
   String emailError = '';
   String passwordError = '';
@@ -52,6 +55,7 @@ class _RegisterState extends State<Register> {
             ),
             Text("欢迎来到CSSA", style: Styles.headLineStyle1.copyWith(fontSize: 30),),
             const Gap(20),
+            Text(error, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
             //
             // TextFormField
             Container(
@@ -113,7 +117,11 @@ class _RegisterState extends State<Register> {
                                   dynamic result = await _auth.regWithEmailPassword(email, password);
                                   if (result == null) {
 
-                                    setState(() { loading = false;});
+                                    setState(() {
+                                      loading = false;
+                                      loading = false;
+                                      error = "错误：请检查邮箱密码或网络设置";
+                                      });
                                   }
                                 }
                               },
@@ -126,7 +134,7 @@ class _RegisterState extends State<Register> {
 
                         child: Text('已经是UTMCSSA一员？ 请登录', style: TextStyle(color: Colors.red),),
                         onTap: () {
-                          Get.to(() => SignIn(), transition: Transition.rightToLeft, duration: Duration(seconds: 1));
+                          widget.toggleView();
                         },
                       )
                     ],

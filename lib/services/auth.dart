@@ -48,4 +48,18 @@ class AuthService {
       return;
     }
   }
+
+  // 2.5 Sign in With no User in Database
+  Future SignInWithEmailPassword(String email, String password) async {
+    try {
+      // Build in firebase user
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      User? firebaseUser = result.user;
+      // return _userFromFirebaseUser(firebaseUser);
+    } catch(e) {
+      print(e.toString());
+      // return;
+    }
+  }
+
 }
