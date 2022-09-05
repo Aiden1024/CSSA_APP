@@ -1,8 +1,30 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 import 'app_styles.dart';
 
 class Shared {
+
+
+  static departmentConvert(int code) {
+    final Map<int, String> depMap = {
+      0:'开发者',
+      1:'主席团',
+      2:'宣传部',
+      3:'活动部',
+      4:'设计部',
+      5:'行政部',
+      6:'公关部',
+      7:'学术部',
+      8:'赞助部',
+      9:'财务部',
+      10:'文艺团',
+
+    }; // Is a HashMap
+
+    return depMap[code];
+  }
 
   static databaseConnectionFailedDialog(BuildContext context) {
     showDialog(

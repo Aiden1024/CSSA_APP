@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class Styles {
   static Color primaryColor = const Color(0xFFb53029);
   static Color textColor = const Color(0xFF3b3b3b);
-  static Color bgColor = const Color(0xFFeeedf2);
+  static Color bgColor = const Color(0xfff3f3f3);
+  static Color secondaryColor = Colors.black87;
 
 
   static TextStyle textStyle = TextStyle(
@@ -60,4 +61,5 @@ class Styles {
     enabledBorder: UnderlineInputBorder(
     ),
   );
+
 }

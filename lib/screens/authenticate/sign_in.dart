@@ -30,8 +30,7 @@ class _SignInState extends State<SignIn> {
   bool loading = false;
   String error = '';
 
-  String emailError = '';
-  String passwordError = '';
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Gap(60),
+                  const Gap(40),
                   Container(
                       child: Center(
                     child: Image.asset(
@@ -61,7 +60,9 @@ class _SignInState extends State<SignIn> {
                     style: Styles.headLineStyle1.copyWith(fontSize: 30),
                   ),
                   const Gap(20),
-                  Text(error, style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                  Text(error,
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold)),
                   //
                   // TextFormField
                   Container(
@@ -87,12 +88,28 @@ class _SignInState extends State<SignIn> {
                                 onChanged: (val) {
                                   setState((() => password = val));
                                 },
-                                obscureText: true,
+                                // Password visibility
+                                obscureText: !_passwordVisible,
                                 initialValue: '',
-                                decoration: Styles.textInputDecoration2
-                                    .copyWith(
-                                        labelText: '密码',
-                                        icon: Icon(Icons.key_outlined))),
+                                decoration:
+                                    Styles.textInputDecoration2.copyWith(
+                                  labelText: '密码',
+                                  icon: Icon(Icons.key_outlined),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Based on passwordVisible state choose the icon
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      // Update the state i.e. toggle the state of passwordVisible variable
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
+                                  ),
+                                )),
                             const Gap(30),
                             SizedBox(
                                 width: 1000,
@@ -120,7 +137,6 @@ class _SignInState extends State<SignIn> {
                                             loading = false;
                                             error = "错误：请检查邮箱密码或网络设置";
                                           });
-
                                         }
                                       }
                                     },

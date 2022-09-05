@@ -20,7 +20,6 @@ class Wrapper extends StatelessWidget {
     if (appUser == null) {
       return const Authenticate();
     } else {
-      print("return BottomBar");
       return const BottomBar();
     }
   }
