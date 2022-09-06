@@ -132,11 +132,15 @@ class _SignInState extends State<SignIn> {
                                             await _auth.SignInWithEmailPassword(
                                                 email, password);
                                         if (result == null) {
-                                          print("DEBUG:  INT HE NULL");
-                                          setState(() {
-                                            loading = false;
-                                            error = "错误：请检查邮箱密码或网络设置";
-                                          });
+                                          print("DEBUG:  INT HE NULL OF RESULT MEANS USER FAILED");
+                                          if (this.mounted) {
+                                            print("DEBUG STILL MOUNTED");
+                                            setState(() {
+                                              loading = false;
+                                              error = "错误：请检查邮箱密码或网络设置";
+                                            });
+                                          }
+
                                         }
                                       }
                                     },

@@ -26,6 +26,23 @@ class Shared {
     return depMap[code];
   }
 
+  static depCodeListToString(List<int> codeList) {
+    print("DEBUG: IN THE DEPCODELOSTTOSTRING");
+    String result = "";
+    for (int code in codeList) {
+      String dep = departmentConvert(code);
+      result = '$result$dep, ';
+
+    }
+    if (result != "") {
+      result = result.substring(0, result.length - 2);
+    } else {
+      result = "还不是CSSA的一员哦~";
+    }
+
+    return result;
+  }
+
   static databaseConnectionFailedDialog(BuildContext context) {
     showDialog(
         barrierDismissible: true,

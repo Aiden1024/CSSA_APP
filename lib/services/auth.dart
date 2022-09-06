@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:utmcssa_app/screens/home/bottom_bar.dart';
+import 'package:utmcssa_app/screens/home/profile/profile.dart';
 
 import '../models/user.dart';
 import 'database.dart';
@@ -57,7 +59,8 @@ class AuthService {
       // Build in firebase user
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       User? firebaseUser = result.user;
-      await DatabaseService(firebaseUser!.uid).getUserData();
+      // await DatabaseService(firebaseUser!.uid).getUserData();
+      print("DEBUG: Sign In ");
       return _userFromFirebaseUser(firebaseUser);
     } catch(e) {
       print(e.toString());

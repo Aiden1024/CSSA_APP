@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
+import 'package:utmcssa_app/screens/home/posts/posts.dart';
 import 'package:utmcssa_app/screens/home/profile/profile.dart';
 
 import '../../utils/app_styles.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({Key? key}) : super(key: key);
+  BottomBar({Key? key}) : super(key: key);
+
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -16,7 +18,7 @@ class _BottomBarState extends State<BottomBar> {
   int _selectedIndex=0;
 
   static final List<Widget> _widgetOption = <Widget>[
-    const Text("Home"),
+    Posts(),
     const Text("Search"),
     const Text("CSSA"),
     const Text("feedback"),
