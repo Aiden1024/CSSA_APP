@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/screens/home/post_card_list.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 import 'package:utmcssa_app/services/database.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
@@ -150,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                     onPressed: () {},
                                     child: Icon(Icons.change_circle_outlined)))],
                         ),
-                        Divider(
+                        const Divider(
                           color: Colors.black12,
                           height: 20,
                           thickness: 1,
@@ -161,10 +162,7 @@ class _ProfileState extends State<Profile> {
                           "我的公告",
                           style: Styles.headLineStyle2,
                         ),
-                        Text(
-                          "scroll test\n scroll test\nscroll test\nscroll test\nscroll test\nscroll test\nscroll test\nscroll test\nscroll test\nscroll test\nscroll test\n",
-                          style: Styles.headLineStyle4,
-                        ),
+                        PostCardList()
                       ],
                     ),
                   ),

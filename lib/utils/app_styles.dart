@@ -8,6 +8,8 @@ class Styles {
   static Color bgColor = const Color(0xfff3f3f3);
   static Color secondaryColor = Colors.black87;
 
+  static double standardHorizontalMargin = 30;
+
 
   static TextStyle textStyle = TextStyle(
     fontSize: 16,

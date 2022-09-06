@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/screens/home/post_card_list.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 
 import '../../../utils/app_styles.dart';
@@ -24,7 +25,7 @@ class Posts extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "TEST",
+          "公告",
           style: Styles.headLineStyle2,
         ),
         centerTitle: false,
@@ -39,6 +40,7 @@ class Posts extends StatelessWidget {
           )
         ],
       ),
+      body: SingleChildScrollView(child: PostCardList()),
 
     );
   }
