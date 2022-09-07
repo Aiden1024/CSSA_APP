@@ -40,11 +40,11 @@ class DatabaseService {
     final data = doc.data() as Map<String, dynamic>;
     // print('INSIDE GET USER');
     // print(data);
-    username = data['username'];
-    formalName = data['formalName'];
-    bio = data['bio'];
+    username = data['username'] ?? "error in username";
+    formalName = data['formalName'] ?? "error in formalName";
+    bio = data['bio'] ?? "error in bio";
     departments = (data['departments'] ?? []).cast<int>().toList();
-    pic = data['pic'];
+    pic = data['pic'] ?? "error in pic";
     post = (data['post'] ?? []).cast<String>().toList();
     up = UserProfile(username: username, formalName: formalName, bio: bio, post:post, departments: departments, pic: pic);
     return up;
