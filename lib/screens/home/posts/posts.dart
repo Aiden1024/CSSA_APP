@@ -40,7 +40,11 @@ class Posts extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(child: PostCardList()),
+      body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 20),
+              child: PostCardList())
+      ),
 
     );
   }

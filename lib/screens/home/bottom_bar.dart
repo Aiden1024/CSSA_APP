@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:utmcssa_app/screens/home/posts/posts.dart';
 import 'package:utmcssa_app/screens/home/profile/profile.dart';
+import 'package:utmcssa_app/screens/home/search/search.dart';
 
 import '../../utils/app_styles.dart';
 
@@ -19,7 +20,7 @@ class _BottomBarState extends State<BottomBar> {
 
   static final List<Widget> _widgetOption = <Widget>[
     Posts(),
-    const Text("Search"),
+    Search(),
     const Text("CSSA"),
     const Text("feedback"),
     Profile()
