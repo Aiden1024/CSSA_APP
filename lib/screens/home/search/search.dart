@@ -10,7 +10,26 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<Search> with TickerProviderStateMixin {
+  static const List<Tab> myTabs = <Tab>[
+    Tab(child: Text("用户", style: TextStyle(color: Colors.black),),),
+    Tab(child: Text("公告", style: TextStyle(color: Colors.black),),),
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController( length: myTabs.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,19 +39,24 @@ class _SearchState extends State<Search> {
           width: double.infinity,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20),
-            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Center(child: TextField(
-            decoration: new InputDecoration.collapsed(
-                hintText: '搜索'
-            ),
-          ),
-          ),
+          child: Center(
+            child: TextField(
+              decoration: InputDecoration(hintText: '搜索',
+                  border: InputBorder.none,
 
+              ),
+            ),
           ),
         ),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: myTabs,
+        ),
+      ),
     );
-
   }
 }
