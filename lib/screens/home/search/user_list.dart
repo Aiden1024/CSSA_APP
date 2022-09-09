@@ -19,6 +19,15 @@ class _UserListState extends State<UserList> {
         UserTile(),
         UserTile(),
         UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
+        UserTile(),
 
       ],
     );

@@ -16,7 +16,7 @@ class UserTile extends StatelessWidget {
         dense: false,
         onTap: () {},
         leading: CircleAvatar(
-          radius: 15,
+          radius: 20,
           backgroundColor: Colors.pinkAccent,
         ),
         title: Text("用户名"),
