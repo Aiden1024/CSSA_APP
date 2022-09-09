@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/screens/home/search/user_list.dart';
 
 import '../../../utils/app_styles.dart';
 
@@ -16,47 +17,48 @@ class _SearchState extends State<Search> with TickerProviderStateMixin {
     Tab(child: Text("公告", style: TextStyle(color: Colors.black),),),
   ];
 
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController( length: myTabs.length, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Styles.bgColor,
-        title: Container(
-          width: double.infinity,
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Center(
-            child: TextField(
-              decoration: InputDecoration(hintText: '搜索',
-                  border: InputBorder.none,
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            elevation: 0.3,
+            backgroundColor: Styles.bgColor,
+            title: Container(
+              margin: EdgeInsets.only(top: 12),
+              width: double.infinity,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: const Center(
+                child: TextField(
+                  decoration: InputDecoration(hintText: '搜索',
+                    border: InputBorder.none,
 
+                  ),
+                ),
               ),
             ),
+            bottom: const TabBar(
+              indicatorColor: Colors.red,
+              tabs: myTabs,
+            ),
+          ),
+          body: const TabBarView(
+            children: [
+              UserList(),
+              Icon(Icons.message_outlined)
+            ],
           ),
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: myTabs,
-        ),
       ),
+
     );
   }
 }
