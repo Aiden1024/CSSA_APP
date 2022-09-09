@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/models/user_profile.dart';
+import 'package:utmcssa_app/screens/home/search/search_posts.dart';
+import 'package:utmcssa_app/screens/home/search/search_users.dart';
 import 'package:utmcssa_app/screens/home/search/user_list.dart';
-
+import 'package:provider/provider.dart';
+import 'package:utmcssa_app/services/database.dart';
 import '../../../utils/app_styles.dart';
 
 class Search extends StatefulWidget {
@@ -52,8 +56,8 @@ class _SearchState extends State<Search> with TickerProviderStateMixin {
           ),
           body: const TabBarView(
             children: [
-              UserList(),
-              Icon(Icons.message_outlined)
+              SearchUsers(),
+              SearchPosts()
             ],
           ),
         ),

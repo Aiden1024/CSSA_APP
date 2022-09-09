@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/models/user_profile.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
 
 class UserTile extends StatelessWidget {
-  const UserTile({Key? key}) : super(key: key);
+  const UserTile({Key? key, required this.uP}) : super(key: key);
+  final UserProfile uP;
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +21,8 @@ class UserTile extends StatelessWidget {
           radius: 20,
           backgroundColor: Colors.pinkAccent,
         ),
-        title: Text("用户名"),
-        trailing: Text("正式名", style: Styles.headLineStyle4,),
+        title: Text(uP.username),
+        trailing: Text(uP.formalName, style: Styles.headLineStyle4,),
       ),
     );
   }

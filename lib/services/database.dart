@@ -70,4 +70,22 @@ class DatabaseService {
     return re;
   }
 
+  List<UserProfile> _uPListFromSnapshot(QuerySnapshot snapshot) {
+    print("DEBUG in _uPList");
+    print(snapshot);
+    return snapshot.docs.map((doc) {
+      return UserProfile(username: doc.get("username"),
+          formalName: doc.get("formalName") ?? "error",
+          pic: doc.get("pic") ?? "error",
+          bio: doc.get("bio") ?? "error",
+          post: (doc.get("post") ?? []).cast<String>().toList(),
+          departments: (doc.get("departments")?? []).cast<int>().toList());
+    }).toList();
+  }
+
+  // GetUP Stream
+Stream<List<UserProfile>> get userProfiles {
+    return userCollection.snapshots().map(_uPListFromSnapshot);
+}
+
 }
