@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:utmcssa_app/screens/home/post_card_list.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
@@ -8,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:utmcssa_app/utils/loading.dart';
 import '../../../models/user.dart';
 import '../../../models/user_profile.dart';
+import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
 
 class Profile extends StatefulWidget {
@@ -21,6 +25,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final appUser = Provider.of<AppUser?>(context);
+    final Storage storage = Storage();
 
     String username = '加载中...';
     String formalName = '加载中...';
@@ -49,8 +54,6 @@ class _ProfileState extends State<Profile> {
           username = up.username;
           formalName = up.formalName;
           bio = up.bio;
-          print("DEBUGG!!!");
-          print(up.departments);
           departments = Shared.depCodeListToString(up.departments);
           return Scaffold(
               appBar: AppBar(
@@ -83,9 +86,46 @@ class _ProfileState extends State<Profile> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 8)),
                           child: InkWell(
-                            customBorder: new CircleBorder(),
-                            onTap: () {}, // Handle your callback.
-                            splashColor: Colors.transparent,
+                            customBorder: CircleBorder(),
+                            onTap: () async {
+                              final result = await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                                type: FileType.image,
+                              );
+
+                              if (result == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("No file Selected"),
+                                  ),
+                                );
+                                return null;
+                              }
+
+                              final path = result.files.single.path;
+                              final fileName = result.files.single.name;
+
+                              print(path);
+                              print(fileName);
+
+                              File file = File(path!);
+                              int sizeInBytes = file.lengthSync();
+                              double sizeInMb = sizeInBytes / (1024 * 1024);
+                              if (sizeInMb > 3){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("The Image you selected is way too big"),
+                                  ),
+                                );
+                              } else {
+                                storage.uploadFile(file, fileName).then((value) => print('Upload Complete'));
+                              }
+
+
+
+                            }, // Handle your callback.
+                            // splashColor: Colors.transparent,
+
                             child: Ink(
                               height: 200,
                               width: 200,
@@ -115,41 +155,44 @@ class _ProfileState extends State<Profile> {
                         ),
                         Text(departments),
                         const Gap(20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 40,
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: ElevatedButton(
-                                      onPressed: () {}, child: Text('发布公告'))),
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 40,
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                                    
-                                      onPressed: () {}, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
-                            ),
-                            Container(
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 40,
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    child: ElevatedButton(
+                                        onPressed: () {}, child: Text('发布公告'))),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 40,
+                                    margin: EdgeInsets.symmetric(horizontal: 5),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
 
-                                margin: EdgeInsets.symmetric(horizontal: 5),
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle
-                                ),
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.zero,
+                                        onPressed: () {}, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
+                              ),
+                              Container(
+
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle
                                   ),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                    ),
 
-                                    onPressed: () {},
-                                    child: Icon(Icons.change_circle_outlined)))],
+                                      onPressed: () {},
+                                      child: Icon(Icons.change_circle_outlined)))],
+                          ),
                         ),
                         const Divider(
                           color: Colors.black12,
