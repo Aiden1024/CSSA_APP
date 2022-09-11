@@ -20,7 +20,7 @@ class DatabaseService {
       'pic' : pic,
       'email' : email,
       'username' : username,
-      'formalName' : '您还不是UTMCSSA的执委哦',
+      'formalName' : '姓名未认证',
       'departments' : [],
       'bio' : bio,
       'post': [],
