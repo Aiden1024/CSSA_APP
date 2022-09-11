@@ -60,9 +60,12 @@ class _SignInState extends State<SignIn> {
                     style: Styles.headLineStyle1.copyWith(fontSize: 30),
                   ),
                   const Gap(20),
-                  Text(error,
-                      style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(error,
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                  ),
                   //
                   // TextFormField
                   Container(
@@ -131,13 +134,13 @@ class _SignInState extends State<SignIn> {
                                         dynamic result =
                                             await _auth.SignInWithEmailPassword(
                                                 email, password);
-                                        if (result == null) {
+                                        if (result.runtimeType == String) {
                                           print("DEBUG:  INT HE NULL OF RESULT MEANS USER FAILED");
                                           if (this.mounted) {
                                             print("DEBUG STILL MOUNTED");
                                             setState(() {
                                               loading = false;
-                                              error = "错误：请检查邮箱密码或网络设置";
+                                              error = result;
                                             });
                                           }
 

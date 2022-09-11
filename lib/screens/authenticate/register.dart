@@ -62,9 +62,12 @@ class _RegisterState extends State<Register> {
                     style: Styles.headLineStyle1.copyWith(fontSize: 30),
                   ),
                   const Gap(20),
-                  Text(error,
-                      style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold)),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(error,
+                        style: TextStyle(
+                            color: Colors.red, fontWeight: FontWeight.bold)),
+                  ),
                   //
                   // TextFormField
                   Container(
@@ -165,16 +168,19 @@ class _RegisterState extends State<Register> {
                                         setState(() {
                                           loading = true;
                                         });
+
                                         dynamic result =
-                                            await _auth.regWithEmailPassword(
-                                                email, password, username);
-                                        if (result == null) {
+                                        await _auth.regWithEmailPassword(
+                                            email, password, username);
+                                        if (result.runtimeType == String) {
                                           setState(() {
                                             loading = false;
-                                            loading = false;
-                                            error = "错误：请检查邮箱密码或网络设置";
+                                            error = result;
                                           });
                                         }
+
+
+
                                       }
                                     },
                                     child: Text('注册'))),

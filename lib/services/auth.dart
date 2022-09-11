@@ -40,6 +40,7 @@ class AuthService {
       // Create New User in Database, later
     } catch(e) {
       print(e.toString());
+      return e.toString();
     }
   }
 
@@ -63,8 +64,8 @@ class AuthService {
       print("DEBUG: Sign In ");
       return _userFromFirebaseUser(firebaseUser);
     } catch(e) {
-      print(e.toString());
-      return;
+      // print(e.toString());
+      return e.toString();
     }
   }
 
