@@ -51,8 +51,8 @@ class _ProfileState extends State<Profile> {
     Future<String> getPicUrl() async {
       try {
         var url = await profilePicStorageRef.getDownloadURL();
-        print("THE URL IN PIC IS >>>>>>>>>>>>>>>>>");
-        print(url);
+        // print("THE URL IN PIC IS >>>>>>>>>>>>>>>>>");
+        // print(url);
         return url;
       } catch(e) {
         print(e);
@@ -163,7 +163,7 @@ class _ProfileState extends State<Profile> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
-                                      image: profilePicLoaded ? NetworkImage(picUrl) : AssetImage(
+                                      image: profilePicLoaded ? NetworkImage(picUrl) : const AssetImage(
                                           'assets/images/default_profile_pic.jpg') as ImageProvider,
                                       fit: BoxFit.cover,
                                     ),

@@ -17,7 +17,7 @@ class DatabaseService {
       'pic' : pic,
       'email' : email,
       'username' : username,
-      'formalName' : 'FIRST LAST',
+      'formalName' : '您还不是UTMCSSA的执委哦',
       'departments' : [],
       'bio' : bio,
       'post': [],
