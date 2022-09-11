@@ -13,6 +13,7 @@ import '../../../models/user.dart';
 import '../../../models/user_profile.dart';
 import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -26,11 +27,15 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final appUser = Provider.of<AppUser?>(context);
     final Storage storage = Storage();
+    final profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${appUser?.uid}/profilePic");
 
     String username = '加载中...';
     String formalName = '加载中...';
     String bio = '加载中...';
     String departments = '加载中...';
+    bool profilePicLoaded = false;
+    String picUrl = '';
+
 
     void _showSettingPanel() {
       showModalBottomSheet(
@@ -43,10 +48,27 @@ class _ProfileState extends State<Profile> {
           });
     }
 
+    Future<String> getPicUrl() async {
+      try {
+        var url = await profilePicStorageRef.getDownloadURL();
+        print("THE URL IN PIC IS >>>>>>>>>>>>>>>>>");
+        print(url);
+        return url;
+      } catch(e) {
+        print(e);
+        return '';
+      }
+
+    }
+
+
+
     return FutureBuilder(
       future: DatabaseService(appUser!.uid).getUserData(),
       builder: (context, AsyncSnapshot<UserProfile> snapshot) {
         if (snapshot.hasData) {
+          // Get User Profile Pic
+
           // set data
           UserProfile up = snapshot.data as UserProfile;
           // setState of having data
@@ -118,7 +140,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 );
                               } else {
-                                storage.uploadFile(file, fileName).then((value) => print('Upload Complete'));
+                                storage.uploadProfilePic(file, appUser.uid).then((value) => print('>>>>>> Upload Complete <<<<<<'));
                               }
 
 
@@ -126,17 +148,28 @@ class _ProfileState extends State<Profile> {
                             }, // Handle your callback.
                             // splashColor: Colors.transparent,
 
-                            child: Ink(
-                              height: 200,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/default_profile_pic.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            child: FutureBuilder(
+                              future: getPicUrl(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  picUrl = snapshot.data as String;
+                                  if (picUrl != '') {
+                                    profilePicLoaded = true;
+                                  }
+                                }
+                                return Ink(
+                                  height: 200,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: profilePicLoaded ? NetworkImage(picUrl) : AssetImage(
+                                          'assets/images/default_profile_pic.jpg') as ImageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              }
                             ),
                           ),
                         ),
@@ -190,7 +223,10 @@ class _ProfileState extends State<Profile> {
                                       padding: EdgeInsets.zero,
                                     ),
 
-                                      onPressed: () {},
+                                      onPressed: () {setState(() {
+                                        getPicUrl();
+                                        print("refresh");
+                                      });},
                                       child: Icon(Icons.change_circle_outlined)))],
                           ),
                         ),
@@ -212,7 +248,7 @@ class _ProfileState extends State<Profile> {
                 ),
               ));
         } else {
-          print("No data at the future wtf is going on ??");
+          print("No data at the future what is going on ??");
           return Loading();
 
         }

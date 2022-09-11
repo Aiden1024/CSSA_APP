@@ -9,7 +9,17 @@ class Storage {
   Future<void> uploadFile(File file, String fileName) async {
 
     try {
-      await storage.ref("test/$fileName").putFile(file);
+      await storage.ref("test/profilePic").putFile(file);
+    } on FirebaseCore.FirebaseException catch(e) {
+      print(e);
+    }
+
+  }
+
+  Future<void> uploadProfilePic(File file, String uid) async {
+
+    try {
+      await storage.ref("users/$uid/profilePic").putFile(file);
     } on FirebaseCore.FirebaseException catch(e) {
       print(e);
     }
