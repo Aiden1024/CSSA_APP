@@ -19,7 +19,8 @@ class UserTile extends StatelessWidget {
         onTap: () {},
         leading: CircleAvatar(
           radius: 20,
-          backgroundColor: Colors.pinkAccent,
+          backgroundImage: AssetImage(
+              'assets/images/default_profile_pic.jpg'),
         ),
         title: Text(uP.username),
         trailing: Text(uP.formalName, style: Styles.headLineStyle4,),

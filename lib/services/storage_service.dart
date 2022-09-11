@@ -6,12 +6,15 @@ import 'package:image/image.dart';
 class Storage {
   final storage = FirebaseStorage.instance;
 
-  Future<void> uploadFile(File file, String fileName) async {
-
+  Future<String> getPicUrl(Reference picReference) async {
     try {
-      await storage.ref("test/profilePic").putFile(file);
-    } on FirebaseCore.FirebaseException catch(e) {
+      var url = await picReference.getDownloadURL();
+      // print("THE URL IN PIC IS >>>>>>>>>>>>>>>>>");
+      // print(url);
+      return url;
+    } catch(e) {
       print(e);
+      return '';
     }
 
   }

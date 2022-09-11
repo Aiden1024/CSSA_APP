@@ -48,21 +48,6 @@ class _ProfileState extends State<Profile> {
           });
     }
 
-    Future<String> getPicUrl() async {
-      try {
-        var url = await profilePicStorageRef.getDownloadURL();
-        // print("THE URL IN PIC IS >>>>>>>>>>>>>>>>>");
-        // print(url);
-        return url;
-      } catch(e) {
-        print(e);
-        return '';
-      }
-
-    }
-
-
-
     return FutureBuilder(
       future: DatabaseService(appUser!.uid).getUserData(),
       builder: (context, AsyncSnapshot<UserProfile> snapshot) {
@@ -149,7 +134,7 @@ class _ProfileState extends State<Profile> {
                             // splashColor: Colors.transparent,
 
                             child: FutureBuilder(
-                              future: getPicUrl(),
+                              future: storage.getPicUrl(profilePicStorageRef),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   picUrl = snapshot.data as String;
@@ -161,6 +146,10 @@ class _ProfileState extends State<Profile> {
                                   height: 200,
                                   width: 200,
                                   decoration: BoxDecoration(
+                                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: Offset(0, 3),)],
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: profilePicLoaded ? NetworkImage(picUrl) : const AssetImage(
@@ -224,7 +213,6 @@ class _ProfileState extends State<Profile> {
                                     ),
 
                                       onPressed: () {setState(() {
-                                        getPicUrl();
                                         print("refresh");
                                       });},
                                       child: Icon(Icons.change_circle_outlined)))],
