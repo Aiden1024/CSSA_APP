@@ -1,7 +1,7 @@
 class UserProfile {
   final String username;
   final String formalName;
-  final String pic;
+  final Future<String> pic;
   final String bio;
   final List<String> post;
   final List<int> departments;

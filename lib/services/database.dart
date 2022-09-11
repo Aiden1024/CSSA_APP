@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:utmcssa_app/services/storage_service.dart';
 
 import '../models/user_profile.dart';
 
@@ -11,6 +13,7 @@ class DatabaseService {
 
   // Collection Reference
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
+  final storage = Storage();
 
   Future updateUserData(String email, String username, {String pic='', String bio = '这里什么都没有哦~'} ) async {
     return await userCollection.doc(uid).set({
@@ -44,9 +47,8 @@ class DatabaseService {
     formalName = data['formalName'] ?? "error in formalName";
     bio = data['bio'] ?? "error in bio";
     departments = (data['departments'] ?? []).cast<int>().toList();
-    pic = data['pic'] ?? "error in pic";
     post = (data['post'] ?? []).cast<String>().toList();
-    up = UserProfile(username: username, formalName: formalName, bio: bio, post:post, departments: departments, pic: pic);
+    up = UserProfile(username: username, formalName: formalName, bio: bio, post:post, departments: departments, pic : Future<String>.value(""));
     return up;
 
   }
@@ -73,10 +75,15 @@ class DatabaseService {
   List<UserProfile> _uPListFromSnapshot(QuerySnapshot snapshot) {
     print("DEBUG in _uPList");
     print(snapshot);
+    print(snapshot.docs);
+
     return snapshot.docs.map((doc) {
-      return UserProfile(username: doc.get("username"),
+      print(doc.id);
+      var profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${doc.id}/profilePic");
+      return UserProfile(
+          username: doc.get("username"),
           formalName: doc.get("formalName") ?? "error",
-          pic: doc.get("pic") ?? "error",
+          pic: storage.getPicUrl(profilePicStorageRef),
           bio: doc.get("bio") ?? "error",
           post: (doc.get("post") ?? []).cast<String>().toList(),
           departments: (doc.get("departments")?? []).cast<int>().toList());
