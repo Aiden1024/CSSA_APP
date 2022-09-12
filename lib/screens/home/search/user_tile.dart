@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:utmcssa_app/models/user_profile.dart';
+import 'package:utmcssa_app/screens/home/search/other_profile.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
+import 'package:get/get.dart';
 
 class UserTile extends StatefulWidget {
   const UserTile({Key? key, required this.uP}) : super(key: key);
@@ -40,7 +42,9 @@ class _UserTileState extends State<UserTile> {
               bottom: BorderSide(width: 0.2, color: Colors.black26)
             ),
             dense: false,
-            onTap: () {},
+            onTap: () {
+              Get.to(OtherProfile(uP: widget.uP,), transition: Transition.rightToLeft, duration: Duration(milliseconds: 450));
+            },
             leading: CircleAvatar(
               radius: 20,
               backgroundImage: profilePicLoaded ? NetworkImage(picUrl) : const AssetImage(

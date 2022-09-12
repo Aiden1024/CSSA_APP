@@ -24,6 +24,10 @@ class _SearchState extends State<Search> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Styles.primaryColor,
+        primarySwatch: Colors.red
+      ),
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
