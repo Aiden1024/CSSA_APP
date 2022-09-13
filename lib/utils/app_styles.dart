@@ -55,7 +55,6 @@ class Styles {
   );
 
   static InputDecoration textInputDecoration2 = InputDecoration(
-    icon: Icon(Icons.favorite),
     labelText: 'Label text',
     // suffixIcon: Icon(
     //   Icons.check_circle,

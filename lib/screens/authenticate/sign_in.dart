@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:utmcssa_app/screens/authenticate/forget_password.dart';
 import 'package:utmcssa_app/screens/authenticate/register.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
@@ -149,14 +150,27 @@ class _SignInState extends State<SignIn> {
                                     },
                                     child: Text('登录'))),
                             const Gap(15),
-                            GestureDetector(
-                              child: Text(
-                                '还没有账号？前往注册',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              onTap: () {
-                                widget.toggleView();
-                              },
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  child: Text(
+                                    '还没有账号？前往注册',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  onTap: () {
+                                    widget.toggleView();
+                                  },
+                                ),
+                                InkWell(
+                                  child: Text('忘记密码', style: Styles.headLineStyle4,),
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () {
+                                    Get.to(ForgetPassword());
+                                  },
+                                )
+                              ],
                             )
                           ],
                         )),
