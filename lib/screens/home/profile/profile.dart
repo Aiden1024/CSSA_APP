@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:utmcssa_app/screens/home/post_card_list.dart';
+import 'package:utmcssa_app/screens/home/profile/info_edit.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 import 'package:utmcssa_app/services/database.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
@@ -14,6 +15,7 @@ import '../../../models/user_profile.dart';
 import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);
@@ -28,6 +30,7 @@ class _ProfileState extends State<Profile> {
     final appUser = Provider.of<AppUser?>(context);
     final Storage storage = Storage();
     final profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${appUser?.uid}/profilePic");
+    UserProfile uP;
 
     String username = '加载中...';
     String formalName = '加载中...';
@@ -55,13 +58,13 @@ class _ProfileState extends State<Profile> {
           // Get User Profile Pic
 
           // set data
-          UserProfile up = snapshot.data as UserProfile;
+          uP = snapshot.data as UserProfile;
           // setState of having data
 
-          username = up.username;
-          formalName = up.formalName;
-          bio = up.bio;
-          departments = Shared.depCodeListToString(up.departments);
+          username = uP.username;
+          formalName = uP.formalName;
+          bio = uP.bio;
+          departments = Shared.depCodeListToString(uP.departments);
           return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -103,7 +106,7 @@ class _ProfileState extends State<Profile> {
                               if (result == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("No file Selected"),
+                                    content: Text("未能选择图片"),
                                   ),
                                 );
                                 return null;
@@ -121,7 +124,7 @@ class _ProfileState extends State<Profile> {
                               if (sizeInMb > 3){
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("The Image you selected is way too big"),
+                                    content: Text("选择的图像请小于3MB"),
                                   ),
                                 );
                               } else {
@@ -197,7 +200,9 @@ class _ProfileState extends State<Profile> {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
 
-                                        onPressed: () {}, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
+                                        onPressed: () {
+                                          Get.to(InfoEdit(uP: uP,), transition: Transition.rightToLeft, duration: Duration(milliseconds: 750));
+                                        }, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
                               ),
                               Container(
 

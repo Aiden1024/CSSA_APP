@@ -29,6 +29,13 @@ class DatabaseService {
     });
   }
 
+  Future updateUserDataInProfile(String username, String bio ) async {
+    return await userCollection.doc(uid).set({
+      'username' : username,
+      'bio' : bio,
+    });
+  }
+
   Future<UserProfile> getUserData()  async {
     UserProfile up;
     String username;
