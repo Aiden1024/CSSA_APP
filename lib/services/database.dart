@@ -30,10 +30,18 @@ class DatabaseService {
   }
 
   Future updateUserDataInProfile(String username, String bio ) async {
-    return await userCollection.doc(uid).set({
-      'username' : username,
-      'bio' : bio,
-    });
+    try {
+      print("DEBUG in database update edit");
+      print(username);
+      print(bio);
+      return await userCollection.doc(uid).update({
+        'username' : username,
+        'bio' : bio,
+      });
+    } on FirebaseFirestore catch(e) {
+      return e.toString();
+    }
+
   }
 
   Future<UserProfile> getUserData()  async {

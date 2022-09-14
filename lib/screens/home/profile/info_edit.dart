@@ -6,6 +6,8 @@ import 'package:gap/gap.dart';
 import '../../../models/user.dart';
 import 'package:get/get.dart';
 
+import '../../../services/database.dart';
+
 class InfoEdit extends StatefulWidget {
   const InfoEdit({Key? key, required this.uP}) : super(key: key);
   final UserProfile uP;
@@ -16,18 +18,19 @@ class InfoEdit extends StatefulWidget {
 
 class _InfoEditState extends State<InfoEdit> {
   final formKey = GlobalKey<FormState>();
+  bool loading = false;
+  String error = "";
   String username = "";
   String bio = "";
+  
 
   @override
   Widget build(BuildContext context) {
-    var loading = false;
-
     final appUser = Provider.of<AppUser?>(context);
-    String username = widget.uP.username;
-    String bio = widget.uP.bio;
+    DatabaseService dbs = DatabaseService(appUser!.uid);
 
-    String error = "";
+    if (username == "" && bio == "") {username = widget.uP.username; bio = widget.uP.bio;}
+
 
     return Scaffold(
       appBar: AppBar(
@@ -41,19 +44,20 @@ class _InfoEditState extends State<InfoEdit> {
       ),
       body: Container(
         margin: EdgeInsets.symmetric(
-            horizontal: Styles.standardHorizontalMargin, vertical: 10),
+            horizontal: Styles.standardHorizontalMargin, vertical: 30),
         child: Center(
           child: Form(
               key: formKey,
               child: Column(
                 children: [
                   TextFormField(
-                      initialValue: username,
+                      initialValue: widget.uP.username,
                       validator: (val) => (val!.length < 3 || val.length > 20)
                           ? '用户名请大于3或小于20字符'
                           : null,
                       onChanged: (val) {
                         setState((() => username = val));
+                        print(username);
                       },
                       decoration: Styles.textInputDecoration2.copyWith(
                           labelText: '用户名', icon: Icon(Icons.person))),
@@ -61,11 +65,12 @@ class _InfoEditState extends State<InfoEdit> {
                   TextFormField(
                     maxLength: 50,
                       maxLines: null,
-                      initialValue: bio,
+                      initialValue: widget.uP.bio,
                       validator: (val) =>
                           (val!.length > 50) ? '简介字数请小于50' : null,
                       onChanged: (val) {
                         setState(() {
+
                           bio = val;
                         });
                       },
@@ -84,15 +89,48 @@ class _InfoEditState extends State<InfoEdit> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(color: Colors.red)))),
                           onPressed: () async {
-                            Get.back();
                             if (formKey.currentState!.validate()) {
                               setState(() {
                                 loading = true;
                               });
+                              if (username == widget.uP.username && bio == widget.uP.bio) {
+                                Get.back();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("信息未改变"),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              print("DEBUG IN INFO edit");
+                              print(username);
+                              print(bio);
+
+                              dynamic result = await dbs.updateUserDataInProfile(username, bio);
+
+                              if (result.runtimeType == String) {
+                                setState(() {
+                                  loading = false;
+                                  error = result;
+                                });
+
+
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("已保存"),
+                                  ),
+                                );
+                                Get.back();
+                                return;
+                              }
                             }
+
                           },
                           child: Text('保存'))),
                   const Gap(15),
+                  loading ? CircularProgressIndicator() : Text(error)
                 ],
               )),
         ),

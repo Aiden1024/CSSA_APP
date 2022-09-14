@@ -201,7 +201,7 @@ class _ProfileState extends State<Profile> {
                                       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
 
                                         onPressed: () {
-                                          Get.to(InfoEdit(uP: uP,), transition: Transition.rightToLeft, duration: Duration(milliseconds: 750));
+                                          Get.to(() => InfoEdit(uP: uP,), arguments: [username, bio], transition: Transition.rightToLeft, duration: Duration(milliseconds: 750));
                                         }, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
                               ),
                               Container(
