@@ -38,7 +38,7 @@ class AuthService {
 
       await DatabaseService(firebaseUser!.uid).updateUserData(email, username);
       // Create New User in Database, later
-    } catch(e) {
+    } on FirebaseAuthException catch(e) {
       print(e.toString());
       return e.toString();
     }
@@ -48,9 +48,9 @@ class AuthService {
   Future signOut() async {
     try {
       return await _auth.signOut();
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       print(e.toString());
-      return;
+      return e.toString();
     }
   }
 
@@ -63,14 +63,20 @@ class AuthService {
       // await DatabaseService(firebaseUser!.uid).getUserData();
       print("DEBUG: Sign In ");
       return _userFromFirebaseUser(firebaseUser);
-    } catch(e) {
+    } on FirebaseAuthException catch(e) {
       // print(e.toString());
       return e.toString();
     }
   }
 
-  Future ResetPassword(String email) async {
-    _auth.sendPasswordResetEmail(email: email);
+  Future resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return true;
+    } on FirebaseAuthException catch(e) {
+      return e.code.toString();
+    }
+
   }
 
 }
