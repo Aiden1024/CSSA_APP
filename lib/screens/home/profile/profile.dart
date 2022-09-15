@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:utmcssa_app/screens/home/post_card_list.dart';
 import 'package:utmcssa_app/screens/home/profile/info_edit.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 import 'package:utmcssa_app/services/database.dart';
@@ -16,6 +15,8 @@ import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+
+import '../mutual/post_card_list.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);

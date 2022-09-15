@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:utmcssa_app/screens/home/post_card_list.dart';
+
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 import 'package:utmcssa_app/services/database.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
@@ -14,6 +14,8 @@ import '../../../models/user_profile.dart';
 import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+
+import '../mutual/post_card_list.dart';
 
 class OtherProfile extends StatefulWidget {
   OtherProfile({Key? key, required this.uP}) : super(key: key);

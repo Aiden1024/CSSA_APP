@@ -29,6 +29,13 @@
             {
               "client_id": "756292172415-19vmbinnk5m6o3vr0d7ti7a60igmqhq8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "756292172415-2lbob2qfeudp2v3v40jee08ob252i5rb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.twinblades.develop.cssaAppManagementSystem"
+              }
             }
           ]
         }

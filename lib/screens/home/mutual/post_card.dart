@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/app_styles.dart';
+import '../../../models/post.dart';
+import '../../../utils/app_styles.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key? key}) : super(key: key);
+  const PostCard({Key? key, required this.post}) : super(key: key);
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,13 @@ class PostCard extends StatelessWidget {
 
               onTap: () {},
               child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.pink,
+                leading: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),//or 15.0
+                  child: Container(
+                    height: 50.0,
+                    width: 50.0,
+                    color: Color(0xffFF0E58),
+                  ),
                 ),
                 title: Text("标题"),
                 subtitle: Text('简介简介简介简介'),
@@ -38,7 +44,15 @@ class PostCard extends StatelessWidget {
                 children: [
 
                   TextButton(onPressed: () {}, child: Text('  发布人:<用户>  ', style: Styles.headLineStyle4,)),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border_outlined), style: IconButton.styleFrom(highlightColor: Colors.transparent), splashColor: Colors.transparent,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border_outlined), style: IconButton.styleFrom(highlightColor: Colors.transparent), splashColor: Colors.transparent,),
+                      SizedBox(
+                        width: 35,
+                          child: Text("50"))
+                    ],
+                  ),
                 ],
               ),
             ),
