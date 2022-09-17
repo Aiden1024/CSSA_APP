@@ -24,16 +24,6 @@ class _PostCardListState extends State<PostCardList> {
       physics: const NeverScrollableScrollPhysics(),
       children:  [
         PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-        PostCard(post: TestObj.testPost,),
-
-
       ],
     );
   }

@@ -4,10 +4,10 @@ class Post {
   final String title;
   final String subtitle;
   final String mainText;
-  final UserProfile userProfile;
+  final String uid;
   final int likes;
   final String date;
   final String pic;
 
-  Post( {required this.title, required this.mainText, required this.userProfile, required this.likes, required this.date, required this.pic, required this.subtitle});
+  Post( {required this.title, required this.mainText, required this.likes, required this.date, required this.pic, required this.subtitle, required this.uid, });
 }

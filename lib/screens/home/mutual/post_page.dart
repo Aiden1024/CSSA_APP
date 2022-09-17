@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/models/user_profile.dart';
+import 'package:utmcssa_app/services/database.dart';
 
 import '../../../models/post.dart';
 import '../../../utils/app_styles.dart';
@@ -20,25 +22,36 @@ class _PostPageState extends State<PostPage> {
         backgroundColor: Styles.primaryColor,
         title: Text("公告"),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 30),
-          child: Column(
-            children: [
-              Text(widget.post.title, style: Styles.headLineStyle1,),
-              const Gap(30),
-              Text(widget.post.userProfile.formalName, style: Styles.headLineStyle2),
-              Text(widget.post.date, style: Styles.headLineStyle3),
+      body: FutureBuilder(
+        future: DatabaseService(widget.post.uid).getUserData(),
+        builder: (context, AsyncSnapshot<UserProfile>snapshot) {
+          if (snapshot.hasData) {
+            UserProfile? uP = snapshot.data;
+            return SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 30),
+                child: Column(
+                  children: [
+                    Text(widget.post.title, style: Styles.headLineStyle1,),
+                    const Gap(30),
+                    Text(uP!.formalName, style: Styles.headLineStyle2),
+                    Text(widget.post.date, style: Styles.headLineStyle3),
 
-              const Gap(10),
-              Container(
-                  margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin),
-                  child: Text(widget.post.mainText, style: Styles.textStyle)),
+                    const Gap(10),
+                    Container(
+                        margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin),
+                        child: Text(widget.post.mainText, style: Styles.textStyle)),
 
-            ],
-          ),
-        ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+
+        }
       ),
 
     );

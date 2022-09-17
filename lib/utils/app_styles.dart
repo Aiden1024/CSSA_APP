@@ -42,24 +42,41 @@ class Styles {
   );
 
   static InputDecoration textInputDecoration1 = InputDecoration(
+    contentPadding: EdgeInsets.all(5.0),
     fillColor: Colors.white,
     // filled: true,
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: textColor, width: 2),
+      borderSide: BorderSide(color: Colors.grey, width: 1),
+
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: Colors.red, width: 2),
+      borderSide: BorderSide(color: Colors.red, width: 1),
     ),
   );
 
-  static InputDecoration textInputDecoration2 = InputDecoration(
+  static InputDecoration textInputDecoration2 = const InputDecoration(
     labelText: 'Label text',
     // suffixIcon: Icon(
     //   Icons.check_circle,
     // ),
     enabledBorder: UnderlineInputBorder(
+    ),
+  );
+
+  static InputDecoration textInputDecoration3 = InputDecoration(
+    contentPadding: EdgeInsets.all(5.0),
+    fillColor: Colors.red[50],
+    filled: true,
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: Colors.transparent, width: 1),
+
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: Colors.transparent, width: 1),
     ),
   );
 

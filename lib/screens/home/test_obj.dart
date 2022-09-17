@@ -32,7 +32,7 @@ class TestObj {
 
   static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
 
-  static Post testPost = Post(title: "测试标题", mainText: TestObj.mainText, userProfile:testUp, likes: 20, date: formattedDate, pic: "", subtitle: "subtitle-subtitle");
+  static Post testPost = Post(uid: "g1SFLa5zPafSZRGvzJWiRWIsNyd2", title: "title", mainText: mainText, likes: 26, date: formattedDate, pic: "pic", subtitle: "subtitle");
 
 
 }

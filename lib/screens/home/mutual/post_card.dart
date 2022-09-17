@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:utmcssa_app/models/user_profile.dart';
 import 'package:utmcssa_app/screens/home/mutual/other_profile.dart';
 import 'package:utmcssa_app/screens/home/mutual/post_page.dart';
+import 'package:utmcssa_app/services/database.dart';
 
 import '../../../models/post.dart';
 import '../../../utils/app_styles.dart';
@@ -22,9 +24,11 @@ class _PostCardState extends State<PostCard> {
   Icon likedIcon = const Icon(Icons.favorite, color: Colors.pink,);
   int numLikes = 0;
 
+
   @override
   Widget build(BuildContext context) {
     numLikes = widget.post.likes;
+
     return Container(
       child: Card(
         child: Column(
@@ -53,33 +57,43 @@ class _PostCardState extends State<PostCard> {
               thickness: 1,
 
             ),
-            SizedBox(
-              height: 40,
-              child: ButtonBar(
-                buttonPadding: EdgeInsets.zero,
-                alignment: MainAxisAlignment.spaceBetween,
-                children: [
+            FutureBuilder(
+              future: DatabaseService(widget.post.uid).getUserData(),
+              builder: (context, AsyncSnapshot<UserProfile> snapshot) {
+                if (snapshot.hasData) {
+                  UserProfile? uP = snapshot.data;
+                  return SizedBox(
+                    height: 40,
+                    child: ButtonBar(
+                      buttonPadding: EdgeInsets.zero,
+                      alignment: MainAxisAlignment.spaceBetween,
+                      children: [
 
-                  TextButton(onPressed: () {
-                    Get.to(() => OtherProfile(uP: widget.post.userProfile));
-                    },
-                    style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)), child: Text('  发布人:${widget.post.userProfile.formalName}  ', style: Styles.headLineStyle4,),
+                        TextButton(onPressed: () {
+                          Get.to(() async => OtherProfile(uP: await DatabaseService(widget.post.uid).getUserData()));
+                        },
+                          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)), child: Text('  发布人:${uP?.formalName}  ', style: Styles.headLineStyle4,),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(onPressed: () {
+                              setState(() {
+                                isLiked = !isLiked;
+                              });
+                            }, icon: isLiked ? likedIcon : likeIcon, style: IconButton.styleFrom(highlightColor: Colors.transparent), splashColor: Colors.transparent,),
+                            SizedBox(
+                                width: 35,
+                                child: Text("${isLiked? numLikes + 1: numLikes}"))
+                          ],
+                        ),
+                      ],
                     ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(onPressed: () {
-                        setState(() {
-                          isLiked = !isLiked;
-                        });
-                      }, icon: isLiked ? likedIcon : likeIcon, style: IconButton.styleFrom(highlightColor: Colors.transparent), splashColor: Colors.transparent,),
-                      SizedBox(
-                        width: 35,
-                          child: Text("${isLiked? numLikes + 1: numLikes}"))
-                    ],
-                  ),
-                ],
-              ),
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }
             ),
 
           ],

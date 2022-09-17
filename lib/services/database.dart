@@ -10,43 +10,45 @@ import '../models/user_profile.dart';
 
 class DatabaseService {
   final String uid;
+
   DatabaseService(this.uid);
 
   // Collection Reference
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
-  final CollectionReference postCollection = FirebaseFirestore.instance.collection("posts");
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
+  final CollectionReference postCollection =
+      FirebaseFirestore.instance.collection("posts");
   final storage = Storage();
 
-  Future updateUserData(String email, String username, {String pic='', String bio = '这里什么都没有哦~'} ) async {
+  Future updateUserData(String email, String username,
+      {String pic = '', String bio = '这里什么都没有哦~'}) async {
     return await userCollection.doc(uid).set({
-      'pic' : pic,
-      'email' : email,
-      'username' : username,
-      'formalName' : '姓名未认证',
-      'departments' : [],
-      'bio' : bio,
+      'pic': pic,
+      'email': email,
+      'username': username,
+      'formalName': '姓名未认证',
+      'departments': [],
+      'bio': bio,
       'post': [],
-      'depHead':  false
-
+      'depHead': false
     });
   }
 
-  Future updateUserDataInProfile(String username, String bio ) async {
+  Future updateUserDataInProfile(String username, String bio) async {
     try {
       print("DEBUG in database update edit");
       print(username);
       print(bio);
       return await userCollection.doc(uid).update({
-        'username' : username,
-        'bio' : bio,
+        'username': username,
+        'bio': bio,
       });
-    } on FirebaseFirestore catch(e) {
+    } on FirebaseFirestore catch (e) {
       return e.toString();
     }
-
   }
 
-  Future<UserProfile> getUserData()  async {
+  Future<UserProfile> getUserData() async {
     UserProfile up;
     String username;
     String formalName;
@@ -65,13 +67,29 @@ class DatabaseService {
     bio = data['bio'] ?? "error in bio";
     departments = (data['departments'] ?? []).cast<int>().toList();
     post = (data['post'] ?? []).cast<String>().toList();
-    up = UserProfile(username: username, formalName: formalName, bio: bio, post:post, departments: departments, pic : Future<String>.value(""));
+    up = UserProfile(
+        username: username,
+        formalName: formalName,
+        bio: bio,
+        post: post,
+        departments: departments,
+        pic: Future<String>.value(""));
     return up;
+  }
 
+  Future updateUserPostList(String postId) async {
+    UserProfile up = await getUserData();
+    List<String> postList = up.post;
+    postList.add(postId);
+
+    return await userCollection.doc(uid).update({
+      'post': postList,
+    });
   }
 
   UserProfile _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return UserProfile(username: snapshot.get('username'),
+    return UserProfile(
+        username: snapshot.get('username'),
         formalName: snapshot.get('formalName'),
         pic: snapshot.get('pic'),
         bio: snapshot.get('bio'),
@@ -85,7 +103,10 @@ class DatabaseService {
     print("DEBUG");
     print("uid $uid");
     print(userCollection.doc(uid).snapshots());
-    var re = userCollection.doc(uid).snapshots().map<UserProfile>(_userDataFromSnapshot);
+    var re = userCollection
+        .doc(uid)
+        .snapshots()
+        .map<UserProfile>(_userDataFromSnapshot);
     return re;
   }
 
@@ -96,23 +117,25 @@ class DatabaseService {
 
     return snapshot.docs.map((doc) {
       print(doc.id);
-      var profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${doc.id}/profilePic");
+      var profilePicStorageRef =
+          FirebaseStorage.instance.ref().child("users/${doc.id}/profilePic");
       return UserProfile(
           username: doc.get("username"),
           formalName: doc.get("formalName") ?? "error",
           pic: storage.getPicUrl(profilePicStorageRef),
           bio: doc.get("bio") ?? "error",
           post: (doc.get("post") ?? []).cast<String>().toList(),
-          departments: (doc.get("departments")?? []).cast<int>().toList());
+          departments: (doc.get("departments") ?? []).cast<int>().toList());
     }).toList();
   }
 
   // GetUP Stream
   Stream<List<UserProfile>> get userProfiles {
-      return userCollection.snapshots().map(_uPListFromSnapshot);
-    }
+    return userCollection.snapshots().map(_uPListFromSnapshot);
+  }
 
-  Future createPost(Post post) async {
+  // Posts section
+  Future databaseCreatePost(Post post) async {
     try {
       var rf = postCollection.doc();
       await rf.set({
@@ -121,13 +144,34 @@ class DatabaseService {
         'mainText': post.mainText,
         'uid': uid,
         'likes': 0,
-        'date':post.date,
-        'pic':post.pic
+        'date': post.date,
+        'pic': post.pic
       });
-      return rf.id;
+
+      await updateUserPostList(rf.id);
     } catch (e) {
       return e.toString();
     }
   }
 
+  Future getPostsById(String postId) async {
+    try {
+      var targetPost = postCollection.doc(postId);
+      DocumentSnapshot doc = await targetPost.get();
+      final data = doc.data() as Map<String, dynamic>;
+
+      Post rePost = Post(
+          title: data['title'] ?? '',
+          mainText: data['mainText'] ?? '',
+          likes: data['likes'] ?? -1,
+          date: data['date'] ?? '',
+          pic: data['pic'] ?? '',
+          subtitle: data['subtitle'] ?? '',
+          uid: data['uid'] ?? '');
+      return rePost;
+    } on FirebaseFirestore catch (e) {
+      print(e);
+      return e;
+    }
+  }
 }

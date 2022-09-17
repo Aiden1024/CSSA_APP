@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:utmcssa_app/screens/home/profile/create_post.dart';
 
 import '../../../services/auth.dart';
 import '../../../utils/shared.dart';
@@ -17,9 +20,11 @@ class _SettingFormState extends State<SettingForm> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
       child: Column(
         children: [
+          ElevatedButton(onPressed: () {
+            Get.to(() => CreatePost());
+            }, child: const Text("Temperary Test Button")),
           SizedBox(
             width: 1000,
             child: TextButton(onPressed: () async {

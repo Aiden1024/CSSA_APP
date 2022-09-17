@@ -195,7 +195,7 @@ class _ProfileState extends State<Profile> {
                                     margin: EdgeInsets.symmetric(horizontal: 5),
                                     child: ElevatedButton(
                                         onPressed: () async {
-                                          dynamic result = await DatabaseService(appUser.uid).createPost(TestObj.testPost);
+                                          dynamic result = await DatabaseService(appUser.uid).databaseCreatePost(TestObj.testPost);
                                           if (result.runtimeType == String) {
                                             ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(
