@@ -6,7 +6,7 @@ class Post {
   final String mainText;
   final UserProfile userProfile;
   final int likes;
-  final DateTime date;
+  final String date;
   final String pic;
 
   Post( {required this.title, required this.mainText, required this.userProfile, required this.likes, required this.date, required this.pic, required this.subtitle});

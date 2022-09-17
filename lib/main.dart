@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:utmcssa_app/services/auth.dart';
+import 'package:utmcssa_app/utils/app_styles.dart';
 
 import 'models/user.dart';
 
@@ -36,6 +37,11 @@ class MyApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.red,
+          primaryColor: Styles.bgColor,
+          primaryTextTheme: TextTheme(
+            headline6: TextStyle(color: Colors.black87)
+          )
+
         ),
         home: Wrapper(),
       ),
