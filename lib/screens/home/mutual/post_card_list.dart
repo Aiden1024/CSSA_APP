@@ -16,28 +16,23 @@ class PostCardList extends StatefulWidget {
 class _PostCardListState extends State<PostCardList> {
   @override
   Widget build(BuildContext context) {
-    UserProfile testUp = UserProfile(username: "username", formalName: "formalName", bio: "bio", post: [], departments: [], pic: Future<String>.value(""));
 
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
-
-    Post testPost = Post(title: "测试标题", mainText: TestObj.mainText, userProfile:testUp, likes: 20, date: formattedDate, pic: "", subtitle: "subtitle-subtitle");
 
     return ListView(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children:  [
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
-        PostCard(post: testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+        PostCard(post: TestObj.testPost,),
+
 
       ],
     );

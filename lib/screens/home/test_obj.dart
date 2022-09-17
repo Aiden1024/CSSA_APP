@@ -1,3 +1,8 @@
+import 'package:intl/intl.dart';
+
+import '../../models/post.dart';
+import '../../models/user_profile.dart';
+
 class TestObj {
   static String mainText = '''
     龙王巡海，风卷云来。
@@ -23,7 +28,11 @@ class TestObj {
 不变的恒常，仅在斫去杂音之后才显现其「寂」之本质。
   ''';
 
+  static UserProfile testUp = UserProfile(username: "username", formalName: "formalName", bio: "bio", post: [], departments: [], pic: Future<String>.value(""));
 
+  static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+
+  static Post testPost = Post(title: "测试标题", mainText: TestObj.mainText, userProfile:testUp, likes: 20, date: formattedDate, pic: "", subtitle: "subtitle-subtitle");
 
 
 }

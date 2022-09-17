@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:utmcssa_app/models/post.dart';
 import 'package:utmcssa_app/services/storage_service.dart';
 
 import '../models/user_profile.dart';
@@ -13,6 +14,7 @@ class DatabaseService {
 
   // Collection Reference
   final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
+  final CollectionReference postCollection = FirebaseFirestore.instance.collection("posts");
   final storage = Storage();
 
   Future updateUserData(String email, String username, {String pic='', String bio = '这里什么都没有哦~'} ) async {
@@ -106,8 +108,26 @@ class DatabaseService {
   }
 
   // GetUP Stream
-Stream<List<UserProfile>> get userProfiles {
-    return userCollection.snapshots().map(_uPListFromSnapshot);
-}
+  Stream<List<UserProfile>> get userProfiles {
+      return userCollection.snapshots().map(_uPListFromSnapshot);
+    }
+
+  Future createPost(Post post) async {
+    try {
+      var rf = postCollection.doc();
+      await rf.set({
+        'title': post.title,
+        'subtitle': post.subtitle,
+        'mainText': post.mainText,
+        'uid': uid,
+        'likes': 0,
+        'date':post.date,
+        'pic':post.pic
+      });
+      return rf.id;
+    } catch (e) {
+      return e.toString();
+    }
+  }
 
 }

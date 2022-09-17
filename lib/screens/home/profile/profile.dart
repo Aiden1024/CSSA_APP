@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/models/post.dart';
 import 'package:utmcssa_app/screens/home/profile/info_edit.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
+import 'package:utmcssa_app/screens/home/test_obj.dart';
 import 'package:utmcssa_app/services/database.dart';
 import 'package:utmcssa_app/utils/app_styles.dart';
 import 'package:gap/gap.dart';
@@ -192,7 +194,23 @@ class _ProfileState extends State<Profile> {
                                   height: 40,
                                     margin: EdgeInsets.symmetric(horizontal: 5),
                                     child: ElevatedButton(
-                                        onPressed: () {}, child: Text('发布公告'))),
+                                        onPressed: () async {
+                                          dynamic result = await DatabaseService(appUser.uid).createPost(TestObj.testPost);
+                                          if (result.runtimeType == String) {
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text("错误： ${result}"),
+                                              ),
+                                            );
+                                          } else {
+                                            print(result);
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              const SnackBar(
+                                                content: Text("公告已发布"),
+                                              ),
+                                            );
+                                          }
+                                        }, child: Text('发布公告'))),
                               ),
                               Expanded(
                                 child: Container(
