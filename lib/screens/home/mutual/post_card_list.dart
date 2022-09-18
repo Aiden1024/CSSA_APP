@@ -23,7 +23,7 @@ class _PostCardListState extends State<PostCardList> {
   @override
   Widget build(BuildContext context) {
 
-    return widget.postList.length == 0
+    return widget.postList.isEmpty
         ? Container(
             padding: EdgeInsets.all(30),
             child:

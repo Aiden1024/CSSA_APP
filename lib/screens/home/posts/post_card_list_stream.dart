@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:utmcssa_app/screens/home/posts/post_list_stream_builder.dart';
-import 'package:utmcssa_app/screens/home/profile/post_card_list.dart';
+import 'package:utmcssa_app/screens/home/mutual/post_card_list.dart';
 
 import '../../../models/post.dart';
 import '../../../services/database.dart';
@@ -21,10 +22,18 @@ class _PostCardListStreamState extends State<PostCardListStream> {
 
     // final uPs = Provider.of<List<Post>>(context);
 
-    return StreamProvider<List<Post>>.value(
-        value: DatabaseService('').posts,
-        initialData: [],
-        child: PostListStreamBuilder(),
+    return StreamBuilder(
+      stream: DatabaseService('').posts,
+      builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+        print("DEBUG in SB");
+        print(snapshot.connectionState);
+        if (snapshot.hasData) {
+          return PostCardList(postList: snapshot.data!);
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+
     );
   }
 }
