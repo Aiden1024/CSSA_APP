@@ -179,7 +179,7 @@ class _OtherProfileState extends State<OtherProfile> {
                     "我的公告",
                     style: Styles.headLineStyle2,
                   ),
-                  PostCardList()
+                  PostCardList(postList: [],)
                 ],
               ),
             ),

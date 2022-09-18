@@ -43,7 +43,11 @@ class Posts extends StatelessWidget {
       body: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 20),
-              child: PostCardList())
+              child: Builder(
+                builder: (context) {
+                  return PostCardList(postList: [],);
+                }
+              ))
       ),
 
     );

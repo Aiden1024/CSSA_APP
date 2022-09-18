@@ -32,6 +32,7 @@ class _PostPageState extends State<PostPage> {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 30),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.post.title, style: Styles.headLineStyle1,),
                     const Gap(30),

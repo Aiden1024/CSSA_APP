@@ -23,7 +23,6 @@ class _SettingFormState extends State<SettingForm> {
       child: Column(
         children: [
           ElevatedButton(onPressed: () {
-            Get.to(() => CreatePost());
             }, child: const Text("Temperary Test Button")),
           SizedBox(
             width: 1000,

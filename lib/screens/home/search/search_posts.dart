@@ -9,6 +9,6 @@ class SearchPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(margin:EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin),
-        child: PostCardList());
+        child: PostCardList(postList: [],));
   }
 }

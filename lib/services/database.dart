@@ -174,4 +174,18 @@ class DatabaseService {
       return e;
     }
   }
+
+  Future getPostListByPostIds(List<String> postIdLst) async {
+    try {
+      List<Post> postLst = [];
+      for (String pid in postIdLst) {
+        Post post = await getPostsById(pid);
+        postLst.add(post);
+      }
+
+      return postLst;
+    } catch (e) {
+      print(e);
+    }
+  }
 }

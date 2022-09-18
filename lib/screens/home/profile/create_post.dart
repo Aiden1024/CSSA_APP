@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
+import 'package:utmcssa_app/models/post.dart';
 
+import '../../../services/database.dart';
 import '../../../utils/app_styles.dart';
 import 'package:gap/gap.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
+  const CreatePost({Key? key, required this.uid}) : super(key: key);
+  final String uid;
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -34,8 +40,28 @@ class _CreatePostState extends State<CreatePost> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         elevation: 0, backgroundColor: Styles.primaryColor),
-                    onPressed: canPost() ? () {} : null,
-                    child: Text("确定")))
+                    onPressed: canPost() ? () async {
+                      String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+
+                      dynamic result = await DatabaseService(widget.uid).databaseCreatePost(Post(title: title, mainText: mainText, date: formattedDate, pic: "", subtitle: subtitle, uid: widget.uid));
+                      if (result.runtimeType == String) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("错误： ${result}"),
+                          ),
+                        );
+                      } else {
+                        print(result);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("公告已发布"),
+                          ),
+                        );
+                      }
+                      Get.back();
+
+                    } : null,
+                    child: Text("发布")))
           ],
         ),
         body: SingleChildScrollView(
@@ -58,7 +84,7 @@ class _CreatePostState extends State<CreatePost> {
                       onChanged: (val) {
                         setState((() => title = val));
                       },
-                      decoration: Styles.textInputDecoration3.copyWith()
+                      decoration: Styles.textInputDecoration3.copyWith(hintText: "标题")
                     ),
                     const Gap(30),
                     Text(
@@ -72,7 +98,7 @@ class _CreatePostState extends State<CreatePost> {
                       onChanged: (val) {
                         setState((() => subtitle = val));
                       },
-                      decoration: Styles.textInputDecoration3.copyWith()
+                      decoration: Styles.textInputDecoration3.copyWith(hintText: "副标题")
                     ),
                     const Gap(30),
                     Text(
@@ -88,7 +114,7 @@ class _CreatePostState extends State<CreatePost> {
                       onChanged: (val) {
                         setState((() => mainText = val));
                       },
-                      decoration: Styles.textInputDecoration3.copyWith()
+                      decoration: Styles.textInputDecoration3.copyWith(hintText: "写点什么吧 ")
                     ),
                   ],
                 ),
