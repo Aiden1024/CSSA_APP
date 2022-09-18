@@ -3,24 +3,29 @@ import 'package:intl/intl.dart';
 import 'package:utmcssa_app/models/user_profile.dart';
 import 'package:utmcssa_app/screens/home/mutual/post_card.dart';
 import 'package:utmcssa_app/screens/home/test_obj.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/post.dart';
 import '../../../utils/app_styles.dart';
 
-class PostCardList extends StatefulWidget {
-  const PostCardList({Key? key, required this.postList}) : super(key: key);
-  final List<Post> postList;
+class PostListStreamBuilder extends StatefulWidget {
+  const PostListStreamBuilder({Key? key}) : super(key: key);
 
   @override
-  State<PostCardList> createState() => _PostCardListState();
+  State<PostListStreamBuilder> createState() => _PostListStreamBuilderState();
 }
 
-class _PostCardListState extends State<PostCardList> {
+class _PostListStreamBuilderState extends State<PostListStreamBuilder> {
+
+
+
   @override
   Widget build(BuildContext context) {
-    print(widget.postList);
 
-    return widget.postList.length == 0
+    final posts = Provider.of<List<Post>>(context);
+
+
+    return posts.length == 0
         ? Container(
             padding: EdgeInsets.all(30),
             child:
@@ -31,9 +36,9 @@ class _PostCardListState extends State<PostCardList> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) {
-              return PostCard(post: widget.postList[index]);
+              return PostCard(post: posts[index]);
             },
-            itemCount: widget.postList.length,
+            itemCount: posts.length,
           );
   }
 }

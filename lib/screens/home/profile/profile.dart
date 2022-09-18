@@ -19,7 +19,7 @@ import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
-import '../mutual/post_card_list.dart';
+import 'post_card_list.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);

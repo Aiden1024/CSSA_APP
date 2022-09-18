@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:utmcssa_app/screens/home/posts/post_card_list_stream.dart';
 import 'package:utmcssa_app/screens/home/profile/setting_form.dart';
 
 import '../../../utils/app_styles.dart';
-import '../mutual/post_card_list.dart';
+import '../profile/post_card_list.dart';
 
 class Posts extends StatelessWidget {
   const Posts({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class Posts extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: Styles.standardHorizontalMargin, vertical: 20),
               child: Builder(
                 builder: (context) {
-                  return PostCardList(postList: [],);
+                  return PostCardListStream();
                 }
               ))
       ),

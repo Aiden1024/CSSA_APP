@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:utmcssa_app/models/post.dart';
 import 'package:utmcssa_app/screens/home/search/user_list.dart';
 
 import '../../../models/user_profile.dart';
@@ -10,6 +11,8 @@ class SearchUsers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return StreamProvider<List<UserProfile>>.value(
         initialData: [],
         value: DatabaseService('').userProfiles,

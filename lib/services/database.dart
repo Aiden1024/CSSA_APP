@@ -135,6 +135,36 @@ class DatabaseService {
   }
 
   // Posts section
+  List<Post> _postListFromSnapshot(QuerySnapshot snapshot) {
+    print("DEBUG IN POST FROM SNAP SHOT");
+    print(snapshot);
+    print(snapshot.docs);
+    print(snapshot.docs.first.id);
+
+    var re = snapshot.docs.map((doc) {
+      return Post(
+          title: doc.get("title") ?? "error",
+          mainText: doc.get("mainText") ?? "error",
+          date: doc.get("date") ?? "error",
+          pic: doc.get("pic") ?? "error",
+          subtitle:doc.get("subtitle") ?? "error",
+          uid: doc.get("uid") ?? "error",
+          likes: doc.get('likes') ?? 0
+
+      ) ;
+    }).toList();
+    print(re);
+    return re;
+  }
+
+  Stream<List<Post>> get posts {
+    print("DEBUG IN STREAM POST");
+    var re =  postCollection.snapshots().map(_postListFromSnapshot);
+    print(re);
+    return re;
+  }
+
+
   Future databaseCreatePost(Post post) async {
     try {
       var rf = postCollection.doc();

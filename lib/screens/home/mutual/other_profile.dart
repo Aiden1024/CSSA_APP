@@ -15,7 +15,7 @@ import '../../../services/storage_service.dart';
 import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import 'post_card_list.dart';
+import '../profile/post_card_list.dart';
 
 class OtherProfile extends StatefulWidget {
   OtherProfile({Key? key, required this.uP}) : super(key: key);
