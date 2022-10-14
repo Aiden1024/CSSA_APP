@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:utmcssa_app/models/user_profile.dart';
-import 'package:utmcssa_app/screens/home/mutual/other_profile.dart';
 import 'package:utmcssa_app/screens/home/mutual/post_page.dart';
+import 'package:utmcssa_app/screens/home/mutual/profile.dart';
 import 'package:utmcssa_app/services/database.dart';
 
 import '../../../models/post.dart';
@@ -70,7 +70,7 @@ class _PostCardState extends State<PostCard> {
                       children: [
 
                         TextButton(onPressed: () {
-                          Get.to(() async => OtherProfile(uP: await DatabaseService(widget.post.uid).getUserData()));
+                          Get.to(() async => Profile(uid: widget.post.uid));
                         },
                           style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)), child: Text('  发布人:${uP?.formalName}  ', style: Styles.headLineStyle4,),
                         ),

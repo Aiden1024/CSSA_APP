@@ -62,12 +62,14 @@ class DatabaseService {
     final data = doc.data() as Map<String, dynamic>;
     // print('INSIDE GET USER');
     // print(data);
+
     username = data['username'] ?? "error in username";
     formalName = data['formalName'] ?? "error in formalName";
     bio = data['bio'] ?? "error in bio";
     departments = (data['departments'] ?? []).cast<int>().toList();
     post = (data['post'] ?? []).cast<String>().toList();
     up = UserProfile(
+        uid: uid,
         username: username,
         formalName: formalName,
         bio: bio,
@@ -89,6 +91,7 @@ class DatabaseService {
 
   UserProfile _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserProfile(
+        uid: snapshot.id,
         username: snapshot.get('username'),
         formalName: snapshot.get('formalName'),
         pic: snapshot.get('pic'),
@@ -120,6 +123,7 @@ class DatabaseService {
       var profilePicStorageRef =
           FirebaseStorage.instance.ref().child("users/${doc.id}/profilePic");
       return UserProfile(
+          uid: doc.id,
           username: doc.get("username"),
           formalName: doc.get("formalName") ?? "error",
           pic: storage.getPicUrl(profilePicStorageRef),

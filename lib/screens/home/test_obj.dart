@@ -28,7 +28,7 @@ class TestObj {
 不变的恒常，仅在斫去杂音之后才显现其「寂」之本质。
   ''';
 
-  static UserProfile testUp = UserProfile(username: "username", formalName: "formalName", bio: "bio", post: [], departments: [], pic: Future<String>.value(""));
+  static UserProfile testUp = UserProfile(username: "username", formalName: "formalName", bio: "bio", post: [], departments: [], pic: Future<String>.value(""), uid: "temp_nothing");
 
   static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
 

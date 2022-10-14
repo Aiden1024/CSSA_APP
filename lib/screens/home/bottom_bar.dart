@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:utmcssa_app/screens/home/posts/posts.dart';
-import 'package:utmcssa_app/screens/home/profile/profile.dart';
+import 'package:utmcssa_app/screens/home/mutual/profile.dart';
 import 'package:utmcssa_app/screens/home/search/search.dart';
 
+import '../../models/user.dart';
 import '../../utils/app_styles.dart';
 
 class BottomBar extends StatefulWidget {
@@ -23,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
     Search(),
     const Text("CSSA"),
     const Text("feedback"),
-    Profile()
+    Profile(uid: "0")
   ];
 
   void _onItemTapped(int index) {
@@ -34,6 +35,8 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Center(
         child: _widgetOption[_selectedIndex],

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:utmcssa_app/screens/home/bottom_bar.dart';
-import 'package:utmcssa_app/screens/home/profile/profile.dart';
+import 'package:utmcssa_app/screens/home/mutual/profile.dart';
 
 import '../models/user.dart';
 import 'database.dart';

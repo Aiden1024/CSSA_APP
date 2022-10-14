@@ -19,10 +19,11 @@ import '../../../utils/shared.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
-import '../mutual/post_card_list.dart';
+import 'post_card_list.dart';
 
 class Profile extends StatefulWidget {
-  Profile({Key? key}) : super(key: key);
+  Profile({Key? key, required this.uid}) : super(key: key);
+  final String uid;
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -33,7 +34,17 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final appUser = Provider.of<AppUser?>(context);
     final Storage storage = Storage();
-    final profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${appUser?.uid}/profilePic");
+    Reference profilePicStorageRef;
+
+    int userType = 0;
+    if (widget.uid == "0") {
+      userType = 0;
+      profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${appUser?.uid}/profilePic");
+    } else {
+      userType = 1;
+      profilePicStorageRef = FirebaseStorage.instance.ref().child("users/${widget.uid}/profilePic");
+    }
+
     UserProfile uP;
 
     String username = '加载中...';
@@ -44,7 +55,7 @@ class _ProfileState extends State<Profile> {
     String picUrl = '';
 
 
-    void _showSettingPanel() {
+    void showSettingPanel() {
       showModalBottomSheet(
           context: context,
           builder: (context) {
@@ -55,8 +66,16 @@ class _ProfileState extends State<Profile> {
           });
     }
 
+    Future<UserProfile> getUPByUserType() async {
+      if (userType == 0) {
+        return await DatabaseService(appUser!.uid).getUserData();
+      } else {
+        return await DatabaseService(widget.uid).getUserData();
+      }
+    }
+
     return FutureBuilder(
-      future: DatabaseService(appUser!.uid).getUserData(),
+      future: getUPByUserType(),
       builder: (context, AsyncSnapshot<UserProfile> snapshot) {
         if (snapshot.hasData) {
           // Get User Profile Pic
@@ -81,7 +100,7 @@ class _ProfileState extends State<Profile> {
                 backgroundColor: Styles.bgColor,
                 actions: [
                   IconButton(
-                    onPressed: _showSettingPanel,
+                    onPressed: showSettingPanel,
                     icon: Icon(Icons.menu),
                     color: Colors.black87,
                   )
@@ -132,7 +151,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 );
                               } else {
-                                storage.uploadProfilePic(file, appUser.uid).then((value) => print('>>>>>> Upload Complete <<<<<<'));
+                                storage.uploadProfilePic(file, userType == 0 ? appUser!.uid : widget.uid).then((value) => print('>>>>>> Upload Complete <<<<<<'));
                               }
 
 
@@ -195,10 +214,11 @@ class _ProfileState extends State<Profile> {
                                   height: 40,
                                     margin: EdgeInsets.symmetric(horizontal: 5),
                                     child: ElevatedButton(
-                                        onPressed: () {
-                                          Get.to(() => CreatePost(uid: appUser.uid,));
+                                        onPressed: userType == 0 ? () {
+                                          Get.to(() => CreatePost(uid: userType == 0 ? appUser!.uid : widget.uid,));
 
-                                        }, child: Text('发布公告'))),
+                                        } : null,
+                                        child: Text('发布公告'))),
                               ),
                               Expanded(
                                 child: Container(
@@ -207,9 +227,11 @@ class _ProfileState extends State<Profile> {
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
 
-                                        onPressed: () {
+                                        onPressed: userType == 0 ? () {
                                           Get.to(() => InfoEdit(uP: uP,), arguments: [username, bio], transition: Transition.rightToLeft, duration: Duration(milliseconds: 750));
-                                        }, child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
+                                        } : null,
+
+                                      child: Text('编辑信息', style: TextStyle(color: Colors.black87),), )),
                               ),
                               Container(
 
@@ -242,7 +264,7 @@ class _ProfileState extends State<Profile> {
                           style: Styles.headLineStyle2,
                         ),
                         FutureBuilder(
-                          future: DatabaseService(appUser.uid).getPostListByPostIds(uP.post),
+                          future: DatabaseService(userType == 0 ? appUser!.uid : widget.uid).getPostListByPostIds(uP.post),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
                               print("object");
