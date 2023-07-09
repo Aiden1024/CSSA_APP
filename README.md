@@ -2,11 +2,14 @@
 
 A new Flutter project.
 
-## Getting Started
+Abandoned UTMCSSA App Project
+Design for better club management
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+#Desired function
+- User Verification
+- Post Announcement
+- Assigned Tasks for the club member
+- Receive feedback from member
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
